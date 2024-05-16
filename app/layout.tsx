@@ -33,7 +33,7 @@ export default function RootLayout({
         <GlobalProvider>
           <ContextProvider>
             <Sidebar />
-            {children}
+            <div className="w-full"> {children}</div>
           </ContextProvider>
         </GlobalProvider>
       </body>
