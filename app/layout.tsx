@@ -5,6 +5,8 @@ import Sidebar from './Components/Sidebar/Sidebar';
 import GlobalStylesProvider from './providers/GlobalStylesProvider';
 import ContextProvider from './providers/ContextProvider';
 import { GlobalProvider } from './context/globalProvider';
+import { ClerkProvider } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,25 +20,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { userId }: { userId: string | null } = auth();
+  console.log(userId);
   return (
-    <html lang="en">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-          crossOrigin="anonymous"
-          referrerPolicy="no-referrer"
-        />
-      </head>
-      <body className={inter.className}>
-        <GlobalProvider>
-          <ContextProvider>
-            <Sidebar />
-            <div className="w-full"> {children}</div>
-          </ContextProvider>
-        </GlobalProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <head>
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
+          />
+        </head>
+        <body className={inter.className}>
+          <GlobalProvider>
+            <ContextProvider>
+              {userId && <Sidebar />}
+              <div className="w-full"> {children}</div>
+            </ContextProvider>
+          </GlobalProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
