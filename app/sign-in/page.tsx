@@ -3,7 +3,7 @@ import { SignIn } from '@clerk/nextjs';
 const page = () => {
   return (
     <div>
-      <SignIn routing="hash" fallbackRedirectUrl="/" />
+      <SignIn routing="hash" forceRedirectUrl="/" />
     </div>
   );
 };
