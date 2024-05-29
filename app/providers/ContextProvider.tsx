@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import GlobalStylesProvider from './GlobalStylesProvider';
+import { Toaster } from 'react-hot-toast';
 
 interface Props {
   children: React.ReactNode;
@@ -21,7 +22,12 @@ const ContextProvider = ({ children }: Props) => {
     return <div>Loading...</div>;
   }
 
-  return <GlobalStylesProvider>{children}</GlobalStylesProvider>;
+  return (
+    <GlobalStylesProvider>
+      <Toaster />
+      {children}
+    </GlobalStylesProvider>
+  );
 };
 
 export default ContextProvider;

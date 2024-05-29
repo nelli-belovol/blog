@@ -22,7 +22,13 @@ const Sidebar = () => {
       <div className="profile">
         <div className="profile-overlay"></div>
         <div className="image" style={{ width: 70, height: 70 }}>
-          <Image width={70} height={70} src="/avatar.jpg" alt="Profile" />
+          <Image
+            width={70}
+            height={70}
+            src="/avatar.jpg"
+            alt="Profile"
+            priority
+          />
         </div>
         <h1>
           <span>Nelli</span>
