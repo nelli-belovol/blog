@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import GlobalStylesProvider from './GlobalStylesProvider';
 import { Toaster } from 'react-hot-toast';
+import { GlobalProvider } from '../context/globalProvider';
 
 interface Props {
   children: React.ReactNode;
@@ -23,10 +24,10 @@ const ContextProvider = ({ children }: Props) => {
   }
 
   return (
-    <GlobalStylesProvider>
+    <GlobalProvider>
       <Toaster />
       {children}
-    </GlobalStylesProvider>
+    </GlobalProvider>
   );
 };
 

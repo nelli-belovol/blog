@@ -4,7 +4,6 @@ import './globals.css';
 import Sidebar from './Components/Sidebar/Sidebar';
 import GlobalStylesProvider from './providers/GlobalStylesProvider';
 import ContextProvider from './providers/ContextProvider';
-import { GlobalProvider } from './context/globalProvider';
 import { ClerkProvider } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 
@@ -35,12 +34,12 @@ export default function RootLayout({
           />
         </head>
         <body className={inter.className}>
-          <GlobalProvider>
-            <ContextProvider>
+          <ContextProvider>
+            <GlobalStylesProvider>
               {userId && <Sidebar />}
               <div className="w-full"> {children}</div>
-            </ContextProvider>
-          </GlobalProvider>
+            </GlobalStylesProvider>
+          </ContextProvider>
         </body>
       </html>
     </ClerkProvider>
