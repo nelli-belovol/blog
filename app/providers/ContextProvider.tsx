@@ -20,7 +20,11 @@ const ContextProvider = ({ children }: Props) => {
   }, []);
 
   if (!isReady) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <span className="loader"></span>
+      </div>
+    );
   }
 
   return (
