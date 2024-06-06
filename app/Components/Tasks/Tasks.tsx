@@ -2,27 +2,35 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Task, useGlobalState } from '../context/globalProvider';
-import CreateContent from '../Components/Modals/CreateContent';
-import TaskItem from '../Components/TaskItem/TaskItem';
-import { plus } from '../utils/Icons';
+import { Task, useGlobalState } from '../../context/globalProvider';
+import CreateContent from '../Modals/CreateContent';
+import TaskItem from '../TaskItem/TaskItem';
+import { plus } from '../../utils/Icons';
 
 interface Props {
   title: string;
   tasks: Task[];
 }
 const Tasks = ({ title, tasks }: Props) => {
-  const { theme } = useGlobalState();
+  const { theme, isLoading } = useGlobalState();
+
   return (
     <TaskStyled theme={theme}>
+      <CreateContent />
       <h1>{title}</h1>
 
-      <div className="tasks grid">
-        {tasks.map((task: Task) => (
-          <TaskItem key={task.id} task={task} />
-        ))}
-        <button className="create-task">{plus} Add new task</button>
-      </div>
+      {!isLoading ? (
+        <div className="tasks grid">
+          {tasks.map((task: Task) => (
+            <TaskItem key={task.id} task={task} />
+          ))}
+          <button className="create-task">{plus} Add new task</button>
+        </div>
+      ) : (
+        <div className="tasks-loader w-full h-full flex justify-center items-center">
+          <span className="loader"></span>
+        </div>
+      )}
     </TaskStyled>
   );
 };
