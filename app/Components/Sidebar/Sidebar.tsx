@@ -11,8 +11,16 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import Button from '../Button/Button';
 import { logout } from '@/app/utils/Icons';
-import { useClerk } from '@clerk/nextjs';
+import { UserButton, useClerk, useUser } from '@clerk/nextjs';
 const Sidebar = () => {
+  const { user } = useUser();
+
+  const { firstName, lastName, imageUrl } = user || {
+    firstName: '',
+    lastName: '',
+    imageUrl: '',
+  };
+  console.log(user);
   const { theme } = useGlobalState();
   const { signOut } = useClerk();
   const router = useRouter();
@@ -26,17 +34,13 @@ const Sidebar = () => {
       <div className="profile">
         <div className="profile-overlay"></div>
         <div className="image" style={{ width: 70, height: 70 }}>
-          <Image
-            width={70}
-            height={70}
-            src="/avatar.jpg"
-            alt="Profile"
-            priority
-          />
+          <Image width={70} height={70} src={imageUrl} alt="Profile" priority />
         </div>
-        <h1>
-          <span>Nelli</span>
-          <span>Kosmakova</span>
+        <div className="user-btn absolute z-20 top-0 w-full h-full">
+          <UserButton />
+        </div>
+        <h1 className="capitalize">
+          {firstName} {lastName}
         </h1>
       </div>
       <ul className="nav-items">
@@ -82,6 +86,15 @@ const SidebarStyled = styled.nav`
   justify-content: space-between;
   color: ${props => props.theme.colorGrey3};
 
+  .cl-rootBox {
+    width: 100%;
+    height: 100%;
+  }
+  .cl-userButtonTrigger {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
   .profile {
     margin: 1.5rem;
     padding: 1rem 0.8rem;

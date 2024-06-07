@@ -53,12 +53,26 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const completedTasks = tasks.filter(task => task.isCompleted);
+  const importantTasks = tasks.filter(task => task.isImportant);
+  const incompleteTasks = tasks.filter(task => !task.isCompleted);
+
   useEffect(() => {
     if (user) allTasks();
   }, [user]);
 
   return (
-    <GlobalContext.Provider value={{ theme, tasks, isLoading, deleteTask }}>
+    <GlobalContext.Provider
+      value={{
+        theme,
+        tasks,
+        isLoading,
+        deleteTask,
+        completedTasks,
+        importantTasks,
+        incompleteTasks,
+      }}
+    >
       <GlobalUpdateContext.Provider value={setSelectedTheme}>
         {children}
       </GlobalUpdateContext.Provider>

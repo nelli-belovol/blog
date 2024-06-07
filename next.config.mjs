@@ -7,6 +7,9 @@ const nextConfig = {
     // Enables the styled-components SWC transform
     styledComponents: true,
   },
+  images: {
+    domains: ['localhost', 'img.clerk.com'],
+  },
 };
 
 export default nextConfig;
