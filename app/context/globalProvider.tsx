@@ -53,6 +53,18 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const updateTask = async (task: Task) => {
+    try {
+      const res = await axios.put(`/api/tasks/`, task);
+      toast.success('Task updated');
+
+      allTasks();
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong');
+    }
+  };
+
   const completedTasks = tasks.filter(task => task.isCompleted);
   const importantTasks = tasks.filter(task => task.isImportant);
   const incompleteTasks = tasks.filter(task => !task.isCompleted);
@@ -71,6 +83,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         completedTasks,
         importantTasks,
         incompleteTasks,
+        updateTask,
       }}
     >
       <GlobalUpdateContext.Provider value={setSelectedTheme}>
