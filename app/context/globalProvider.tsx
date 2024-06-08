@@ -26,7 +26,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [modal, setModal] = useState(false);
   const allTasks = async () => {
     setIsLoading(true);
 
@@ -65,6 +65,14 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const openModal = (key: string) => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
   const completedTasks = tasks.filter(task => task.isCompleted);
   const importantTasks = tasks.filter(task => task.isImportant);
   const incompleteTasks = tasks.filter(task => !task.isCompleted);
@@ -84,6 +92,10 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         importantTasks,
         incompleteTasks,
         updateTask,
+        openModal,
+        closeModal,
+        modal,
+        allTasks,
       }}
     >
       <GlobalUpdateContext.Provider value={setSelectedTheme}>
