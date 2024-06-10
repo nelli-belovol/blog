@@ -17,6 +17,9 @@ export type Task = {
   date: string;
   isCompleted: boolean;
   isImportant: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: String;
 };
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
@@ -27,12 +30,23 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [modal, setModal] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const collapseMenu = () => {
+    setCollapsed(!collapsed);
+  };
+
   const allTasks = async () => {
     setIsLoading(true);
 
     try {
       const res = await axios.get('/api/tasks');
-
+      res.data.sort(
+        (
+          a: { createdAt: string | number | Date },
+          b: { createdAt: string | number | Date },
+        ) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
       setTasks(res.data);
     } catch (error) {
       console.log(error);
@@ -73,9 +87,26 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     setModal(false);
   };
 
-  const completedTasks = tasks.filter(task => task.isCompleted);
-  const importantTasks = tasks.filter(task => task.isImportant);
-  const incompleteTasks = tasks.filter(task => !task.isCompleted);
+  const completedTasks = tasks
+    .filter(task => task.isCompleted)
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+
+  const importantTasks = tasks
+    .filter(task => task.isImportant)
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+
+  const incompleteTasks = tasks
+    .filter(task => !task.isCompleted)
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
 
   useEffect(() => {
     if (user) allTasks();
@@ -96,6 +127,8 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         closeModal,
         modal,
         allTasks,
+        collapsed,
+        collapseMenu,
       }}
     >
       <GlobalUpdateContext.Provider value={setSelectedTheme}>

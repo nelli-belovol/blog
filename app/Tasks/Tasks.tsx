@@ -2,11 +2,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Task, useGlobalState } from '../../context/globalProvider';
-import CreateContent from '../Modals/CreateContent';
-import TaskItem from '../TaskItem/TaskItem';
-import { plus } from '../../utils/Icons';
-import Modal from '../Modals/Modal';
+import { Task, useGlobalState } from '../context/globalProvider';
+import CreateContent from '../Components/Modals/CreateContent';
+import TaskItem from '../Components/TaskItem/TaskItem';
+import { plus } from '../utils/Icons';
+import Modal from '../Components/Modals/Modal';
 
 interface Props {
   title: string;
@@ -42,14 +42,15 @@ const TaskStyled = styled.main`
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.colorBg2};
-  border: ${props => props.theme.borderColor2};
+  border: 2px solid ${props => props.theme.borderColor2};
   border-radius: 1rem;
 
   overflow-y: auto;
 
   &::-webkit-scrollbar {
-    width: 0%.5rem;
+    display: none;
   }
+
   > h1 {
     font-size: clamp(1.5rem, 2vw, 2rem);
     font-weight: 800;
