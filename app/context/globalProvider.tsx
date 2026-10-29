@@ -30,7 +30,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [modal, setModal] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState<boolean>(false);
 
   const collapseMenu = () => {
     setCollapsed(!collapsed);
@@ -41,18 +41,31 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const res = await axios.get('/api/tasks');
-      res.data.sort(
+
+      console.log('Ответ /api/tasks:', res.data);
+      console.log('Тип ответа:', typeof res.data);
+      console.log('Это массив:', Array.isArray(res.data));
+
+      if (!Array.isArray(res.data)) {
+        console.error('Ожидался массив задач, получено:', res.data);
+        toast.error('API вернул данные в неожиданном формате');
+        return;
+      }
+
+      const sortedTasks = [...res.data].sort(
         (
           a: { createdAt: string | number | Date },
           b: { createdAt: string | number | Date },
         ) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
-      setTasks(res.data);
+
+      setTasks(sortedTasks);
     } catch (error) {
       console.log(error);
       toast.error('Something went wrong');
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const deleteTask = async (id: string) => {

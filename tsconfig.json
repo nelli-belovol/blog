@@ -19,14 +19,16 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/utils/formatDate.js"
+    "app/utils/formatDate.js",
+    "declarations.d.ts"
   ],
   "exclude": ["node_modules"]
 }

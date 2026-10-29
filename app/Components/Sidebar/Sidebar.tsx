@@ -30,14 +30,22 @@ const Sidebar = () => {
   };
 
   return (
-    <SidebarStyled collapsed={collapsed} theme={theme}>
+    <SidebarStyled $collapsed={collapsed} theme={theme}>
       <button className="toggle-nav" onClick={collapseMenu}>
         {collapsed ? bars : arrowLeft}
       </button>
       <div className="profile">
         <div className="profile-overlay"></div>
         <div className="image" style={{ width: 70, height: 70 }}>
-          <Image width={70} height={70} src={imageUrl} alt="Profile" priority />
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt="Profile"
+              width={70}
+              height={70}
+              priority
+            />
+          ) : null}
         </div>
         <div className="user-btn absolute z-20 top-0 w-full h-full">
           <UserButton />
@@ -77,7 +85,7 @@ const Sidebar = () => {
   );
 };
 
-const SidebarStyled = styled.nav<{ collapsed: boolean }>`
+const SidebarStyled = styled.nav<{ $collapsed: boolean }>`
   position: relative;
   background-color: ${props => props.theme.colorBg2};
   width: auto;
@@ -96,7 +104,7 @@ const SidebarStyled = styled.nav<{ collapsed: boolean }>`
 
     transition: all 0.3s cubic-bezier(0.53, 0.21, 0, 1);
     transform: ${props =>
-      props.collapsed ? 'translateX(-106%)' : 'translateX(0)'};
+      props.$collapsed ? 'translateX(-106%)' : 'translateX(0)'};
   }
   .toggle-nav {
     display: none;
