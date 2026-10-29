@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.7.6",
+    "@clerk/nextjs": "^6.39.8",
     "@prisma/client": "^5.14.0",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
